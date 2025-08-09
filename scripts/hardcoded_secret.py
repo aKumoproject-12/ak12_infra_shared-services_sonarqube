@@ -1,7 +1,7 @@
 import requests, os                                 
 
-url =   "https://heyimiana.com"                       
-slack = "https://hooks.slack.com/services/B00000000/A00000000/XXXXXXXXXXXXXXXXXXXXXXXX"                     
+url =   "https://lalalala.com"                       
+slack = "https://hooks.slack.com/services/B15007023/A19780503/XXXXXXXXXXXXXXXXXXXXXXXX"                     
 headers = {"Content-type": "application/json"}
 slack_id = A4569BGV97
 
@@ -22,3 +22,9 @@ except requests.exceptions.ConnectionError:
 except:
     print(f"{url} something went wrong!")
     slack_sms(data=f'{"text": "Web Server: {url} something went wrong -- Set By {slack_id}"}')
+
+
+def check_value(value):
+    if value < 0:
+        raise BaseException("Value cannot be negative")
+        #The BaseException class is reserved for system-level exceptions

@@ -1,0 +1,66 @@
+name: SonarCloud Analysis
+
+env: 
+  AWS_REGION: "us-east-1"
+  TER_VERSION: "1.12.2"
+
+on: 
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+
+jobs:
+  python-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python Version
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Run the python script
+        working-directory: scripts
+        run: python hardcoded_secret.py
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_HOST_URL: "https://sonarcloud.io/"
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  tf_plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TER_VERSION }}
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::932930472067:role/GitHubActionsOIDCRoleSonarQubeTest
+          aws-region: ${{ env.AWS_REGION }}
+        
+
+      - name: Run Terraform Init 
+        run: terraform init 
+
+      - name: Run Terraform validate
+        run: terraform validate
+
+      - name: Run Terraform plan 
+        run: |
+          terraform plan -out=plan.tfplan
+          terraform show -json -no-color plan.tfplan > tfplan.json
