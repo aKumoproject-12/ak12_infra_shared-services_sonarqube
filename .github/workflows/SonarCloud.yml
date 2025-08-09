@@ -30,6 +30,7 @@ jobs:
       - name: Run the python script
         working-directory: scripts
         run: python hardcoded_secret.py
+        continue-on-error: true
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v5
