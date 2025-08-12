@@ -28,3 +28,12 @@ def check_value(value):
     if value < 0:
         raise BaseException("Value cannot be negative")
         #The BaseException class is reserved for system-level exceptions
+
+
+secret_password = "Python123"
+
+for i in range(3):
+    if i != secret_password:
+        print("Access granted")
+    else:
+        print("Unable to access")
