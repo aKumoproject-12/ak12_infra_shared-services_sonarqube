@@ -1,7 +1,7 @@
 import requests, os                                 
 
 url =   "https://lalalala.com"                       
-slack = "https://hooks.slack.com/services/B15007023/A19780503/XXXXXXXXXXXXXXXXXXXXXXXX"                     
+slack_url = "https://hooks.slack.com/services/B15007023/A19780503/XXXXXXXXXXXXXXXXXXXXXXXX"                     
 headers = {"Content-type": "application/json"}
 slack_id = A4569BGV97
 
